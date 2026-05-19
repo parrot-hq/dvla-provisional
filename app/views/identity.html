@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Prove your identity - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/address-previous-check"
+    }) }}
+
+    <span class="govuk-caption-l">Prove your identity</span>
+    <h1 class="govuk-heading-l">How do you want to prove your identity?</h1>
+
+    <p class="govuk-body">DVLA needs to verify who you are before issuing your licence.</p>
+
+    <p class="govuk-body">Using a UK passport is the fastest option. Your photo and signature are taken from your passport automatically - you do not need to provide a separate photo.</p>
+
+    <form action="/identity-answer" method="post">
+
+      {{ govukRadios({
+        name: "identity-method",
+        fieldset: {
+          legend: {
+            text: "Choose how to prove your identity",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "passport",
+            text: "UK passport",
+            hint: { text: "Fastest option. Your licence photo is taken from your passport. You must have a valid passport." }
+          },
+          {
+            value: "biometric-permit",
+            text: "UK biometric residence permit or card",
+            hint: { text: "For non-UK nationals. You will need to post original documents." }
+          },
+          {
+            value: "eu-id",
+            text: "EU, EEA or Swiss national identity card",
+            hint: { text: "Only valid if you have settled or pre-settled status." }
+          },
+          {
+            value: "birth-certificate",
+            text: "UK birth certificate and supporting documents",
+            hint: { text: "You will need to post your original birth certificate and at least one supporting document such as a P60 or NI card." }
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

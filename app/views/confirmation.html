@@ -1,0 +1,51 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Application complete - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukPanel({
+      titleText: "Application complete",
+      html: "Your application reference number<br><strong>DVLA-" + (data['dob-year'] or "2007") + "-" + (data['last-name'] or "SMITH") | upper | truncate(4, true, "") + "-47821</strong>"
+    }) }}
+
+    <p class="govuk-body">We have sent a confirmation email to <strong>{{ data['email'] or 'your email address' }}</strong>.</p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+    <p class="govuk-body">DVLA will process your application. Your provisional driving licence should arrive within <strong>1 week</strong> if no additional checks are needed.</p>
+
+    {% if data['identity-method'] != 'passport' %}
+    {{ govukWarningText({
+      text: "You must post your original identity documents to DVLA, Swansea, SA99 1AD within 5 working days. Your application cannot be processed without them.",
+      iconFallbackText: "Important"
+    }) }}
+    {% endif %}
+
+    {% if data['medical-conditions'] == 'yes' %}
+    {{ govukInsetText({
+      text: "Because you declared medical conditions, DVLA may contact your GP or specialist for a medical report. This can take longer to process. You will be notified of any delays."
+    }) }}
+    {% endif %}
+
+    <h2 class="govuk-heading-m">What you can do once your licence arrives</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>book your theory test at the earliest opportunity - you must pass the theory test before you can book a practical driving test</li>
+      <li>start driving lessons with a DVSA-approved instructor, or practise with a qualified driver aged 21 or over who has held a full licence for at least 3 years</li>
+      <li>display L plates on the front and rear of any vehicle you drive</li>
+    </ul>
+
+    <p class="govuk-body">You cannot drive on motorways unless accompanied by an approved driving instructor in a dual-control car.</p>
+
+    <h2 class="govuk-heading-m">Track your application</h2>
+
+    <p class="govuk-body">You can <a href="#" class="govuk-link">track the status of your application</a> on your GOV.UK account.</p>
+
+    <p class="govuk-body"><a href="/start" class="govuk-link">Return to the start page</a></p>
+
+  </div>
+</div>
+{% endblock %}

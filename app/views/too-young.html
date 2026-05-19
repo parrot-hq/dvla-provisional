@@ -1,0 +1,32 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}You cannot apply yet - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/date-of-birth"
+    }) }}
+
+    <h1 class="govuk-heading-l">You cannot apply yet</h1>
+
+    {{ govukWarningText({
+      text: "You must be at least 15 years and 9 months old to apply for a provisional driving licence.",
+      iconFallbackText: "Warning"
+    }) }}
+
+    <p class="govuk-body">Based on the date of birth you entered, you are not yet old enough to apply.</p>
+
+    <p class="govuk-body">You can come back and apply when you are 15 years and 9 months old. Your licence will be issued with the correct entitlement start dates based on your age.</p>
+
+    <h2 class="govuk-heading-m">What happens when you turn 17</h2>
+    <p class="govuk-body">You will be able to drive a car on public roads once you turn 17, as long as you are supervised and display L plates. You can apply for your provisional licence before you turn 17 so it arrives in time.</p>
+
+    <p class="govuk-body"><a href="/date-of-birth" class="govuk-link">Change your date of birth</a></p>
+
+  </div>
+</div>
+{% endblock %}

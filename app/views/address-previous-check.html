@@ -1,0 +1,50 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Previous addresses - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/address-current"
+    }) }}
+
+    <span class="govuk-caption-l">Your address history</span>
+    <h1 class="govuk-heading-l">Have you lived at any other addresses in the last 3 years?</h1>
+
+    <p class="govuk-body">DVLA needs a complete address history for the past 3 years. This helps verify your residency in Great Britain.</p>
+
+    <form action="/previous-address-answer" method="post">
+
+      {{ govukRadios({
+        name: "previous-address",
+        fieldset: {
+          legend: {
+            text: "Have you lived at another address in the last 3 years?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

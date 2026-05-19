@@ -1,0 +1,60 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Eyesight requirement - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/residency"
+    }) }}
+
+    <span class="govuk-caption-l">Eligibility</span>
+    <h1 class="govuk-heading-l">Can you meet the eyesight requirement?</h1>
+
+    <p class="govuk-body">To hold a driving licence you must be able to read a vehicle number plate from 20 metres away.</p>
+    <p class="govuk-body">You can wear glasses or contact lenses when driving. If you do, you must wear them whenever you drive.</p>
+
+    {{ govukDetails({
+      summaryText: "What happens if I am unsure about my eyesight?",
+      text: "If you are not sure whether you meet the eyesight standard, visit an optician before applying. You must declare any visual impairment to the DVLA. Failing to meet the eyesight standard is a criminal offence."
+    }) }}
+
+    <form action="/eyesight-answer" method="post">
+
+      {{ govukRadios({
+        name: "eyesight",
+        fieldset: {
+          legend: {
+            text: "Can you read a number plate from 20 metres, with glasses or contact lenses if needed?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "unsure",
+            text: "I am not sure"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

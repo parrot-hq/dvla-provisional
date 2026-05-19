@@ -1,0 +1,107 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Check your answers - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Check your answers before paying</h1>
+
+    <h2 class="govuk-heading-m">Personal details</h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: { text: "Full name" },
+          value: { text: (data['first-name'] + ' ' + (data['middle-names'] + ' ' if data['middle-names'] else '') + data['last-name']) if data['first-name'] else "Not provided" },
+          actions: { items: [{ href: "/personal-name", text: "Change", visuallyHiddenText: "full name" }] }
+        },
+        {
+          key: { text: "Date of birth" },
+          value: { text: (data['dob-day'] + "/" + data['dob-month'] + "/" + data['dob-year']) if data['dob-day'] else "Not provided" },
+          actions: { items: [{ href: "/date-of-birth", text: "Change", visuallyHiddenText: "date of birth" }] }
+        },
+        {
+          key: { text: "National Insurance number" },
+          value: { text: data['ni-number'] if data['ni-number'] else "Not provided" },
+          actions: { items: [{ href: "/ni-number", text: "Change", visuallyHiddenText: "National Insurance number" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Your address</h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: { text: "Current address" },
+          value: {
+            html: (data['address-line1'] + '<br>' +
+              (data['address-line2'] + '<br>' if data['address-line2'] else '') +
+              data['address-town'] + '<br>' +
+              (data['address-county'] + '<br>' if data['address-county'] else '') +
+              data['address-postcode']) if data['address-line1'] else "Not provided"
+          },
+          actions: { items: [{ href: "/address-current", text: "Change", visuallyHiddenText: "current address" }] }
+        },
+        {
+          key: { text: "Previous addresses in last 3 years" },
+          value: { text: data['previous-address'] if data['previous-address'] else "Not provided" },
+          actions: { items: [{ href: "/address-previous-check", text: "Change", visuallyHiddenText: "previous addresses" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Eligibility and medical</h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: { text: "Eyesight" },
+          value: { text: "Can read a number plate from 20 metres" if data['eyesight'] == 'yes' else data['eyesight'] },
+          actions: { items: [{ href: "/eyesight", text: "Change", visuallyHiddenText: "eyesight confirmation" }] }
+        },
+        {
+          key: { text: "Medical conditions declared" },
+          value: { text: "None declared" if data['medical-conditions'] == 'no' else "Conditions declared" },
+          actions: { items: [{ href: "/medical-conditions", text: "Change", visuallyHiddenText: "medical conditions" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Licence details</h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: { text: "Vehicle types" },
+          value: { text: data['vehicle-type'] | join(", ") if data['vehicle-type'] else "Not provided" },
+          actions: { items: [{ href: "/vehicle-type", text: "Change", visuallyHiddenText: "vehicle types" }] }
+        },
+        {
+          key: { text: "Identity document" },
+          value: { text: "UK passport" if data['identity-method'] == 'passport' else data['identity-method'] },
+          actions: { items: [{ href: "/identity", text: "Change", visuallyHiddenText: "identity document" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Declaration</h2>
+
+    <p class="govuk-body">By continuing to pay you confirm that:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>the information you have given is correct and complete to the best of your knowledge</li>
+      <li>you meet all the eligibility requirements</li>
+      <li>you understand that giving false information is a criminal offence</li>
+    </ul>
+
+    <form action="/payment" method="post">
+      {{ govukButton({
+        text: "Accept and continue to payment"
+      }) }}
+    </form>
+
+  </div>
+</div>
+{% endblock %}

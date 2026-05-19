@@ -1,0 +1,62 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Sign in to GOV.UK - DVLA{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/start"
+    }) }}
+
+    <h1 class="govuk-heading-xl">Sign in to GOV.UK</h1>
+
+    <p class="govuk-body">Sign in to your GOV.UK account to continue your application. Your account keeps your information safe.</p>
+
+    <form action="/sign-in-answer" method="post">
+
+      {{ govukInput({
+        label: {
+          text: "Email address",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "We'll send a verification code to this email address"
+        },
+        id: "email",
+        name: "email",
+        type: "email",
+        autocomplete: "email",
+        spellcheck: false,
+        value: data['email']
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Password",
+          classes: "govuk-label--m"
+        },
+        id: "password",
+        name: "password",
+        type: "password",
+        autocomplete: "current-password"
+      }) }}
+
+      {{ govukButton({
+        text: "Sign in"
+      }) }}
+
+    </form>
+
+    <p class="govuk-body"><a href="#" class="govuk-link">Forgotten your password?</a></p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m">Create a GOV.UK account</h2>
+    <p class="govuk-body">If you do not have a GOV.UK account, you can <a href="/sign-in-answer?new-user=true" class="govuk-link">create one now</a>. It takes about 5 minutes.</p>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Apply for your first provisional driving licence - DVLA{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Apply for your first provisional driving licence</h1>
+
+    <p class="govuk-body-l">Use this service to get a provisional driving licence for a car, motorbike, moped or other vehicle.</p>
+
+    <h2 class="govuk-heading-m">Before you start</h2>
+
+    <p class="govuk-body">To apply you must:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>be at least 15 years and 9 months old</li>
+      <li>live in England, Scotland or Wales</li>
+      <li>have been resident in Great Britain for at least 185 days in the past 12 months</li>
+      <li>be able to read a car number plate from 20 metres</li>
+      <li>not be banned from driving</li>
+    </ul>
+
+    {{ govukInsetText({
+      text: "It costs £34 to apply online. You'll need a debit or credit card."
+    }) }}
+
+    <p class="govuk-body">You'll need to sign in to your GOV.UK account to use this service. If you do not have an account, you can create one when you sign in.</p>
+
+    <p class="govuk-body">You'll be asked to verify your identity using a UK passport if you have one. If you do not have a passport, you can still apply online but you may need to post original identity documents separately.</p>
+
+    {{ govukButton({
+      text: "Start now",
+      href: "/sign-in",
+      isStartButton: true,
+      classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8"
+    }) }}
+
+    <h2 class="govuk-heading-m">Other ways to apply</h2>
+
+    <p class="govuk-body">You can also apply by post using a D1 form. Collect one from a Post Office. Postal applications cost £43 and take around 3 weeks to process.</p>
+
+    <p class="govuk-body">This service is also available in <a href="#" class="govuk-link">Welsh (Cymraeg)</a>.</p>
+
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <aside class="govuk-related-navigation" role="complementary">
+      <nav class="govuk-related-navigation__nav-section" aria-labelledby="related-nav-related_guides">
+        <h2 class="govuk-related-navigation__main-heading" id="related-nav-related_guides">Related content</h2>
+        <ul class="govuk-list govuk-related-navigation__link-list">
+          <li><a class="govuk-link govuk-related-navigation__section-link" href="#">Driving licence fees</a></li>
+          <li><a class="govuk-link govuk-related-navigation__section-link" href="#">Book your theory test</a></li>
+          <li><a class="govuk-link govuk-related-navigation__section-link" href="#">Rules for learner drivers</a></li>
+        </ul>
+      </nav>
+    </aside>
+  </div>
+
+</div>
+{% endblock %}

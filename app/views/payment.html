@@ -1,0 +1,98 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Pay for your provisional driving licence - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/check-answers"
+    }) }}
+
+    <h1 class="govuk-heading-l">Pay for your provisional driving licence</h1>
+
+    {{ govukInsetText({
+      html: "The fee for a first provisional driving licence is <strong>£34.00</strong>. This is a non-refundable government fee."
+    }) }}
+
+    <p class="govuk-body">You can pay by debit card or credit card. Payment is secure and processed by GOV.UK Pay.</p>
+
+    <form action="/payment-answer" method="post">
+
+      {{ govukInput({
+        label: {
+          text: "Name on card",
+          classes: "govuk-label--m"
+        },
+        id: "card-name",
+        name: "card-name",
+        autocomplete: "cc-name",
+        value: data['card-name']
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Card number",
+          classes: "govuk-label--m"
+        },
+        id: "card-number",
+        name: "card-number",
+        classes: "govuk-input--width-20",
+        autocomplete: "cc-number",
+        inputmode: "numeric",
+        spellcheck: false
+      }) }}
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            Expiry date
+          </legend>
+          <div class="govuk-date-input">
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="card-expiry-month">Month</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="card-expiry-month" name="card-expiry-month" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-exp-month">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="card-expiry-year">Year</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="card-expiry-year" name="card-expiry-year" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-exp-year">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukInput({
+        label: {
+          text: "Security code (CVV)",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "The last 3 digits on the back of the card"
+        },
+        id: "card-cvv",
+        name: "card-cvv",
+        classes: "govuk-input--width-5",
+        inputmode: "numeric",
+        spellcheck: false
+      }) }}
+
+      {{ govukButton({
+        text: "Pay £34.00"
+      }) }}
+
+    </form>
+
+    <p class="govuk-body govuk-!-font-size-16">
+      <svg class="govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 0C3.1 0 0 3.1 0 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 10.8c-.4 0-.8-.3-.8-.8s.3-.8.8-.8.8.3.8.8-.4.8-.8.8zm.8-3.3c0 .4-.3.8-.8.8s-.8-.3-.8-.8V3.2c0-.4.3-.8.8-.8s.8.3.8.8v4.3z"/></svg>
+      Your payment is protected by 128-bit encryption. We do not store your card details.
+    </p>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}You cannot use this service - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/residency"
+    }) }}
+
+    <h1 class="govuk-heading-l">You cannot use this service</h1>
+
+    {% if data['residency'] == 'no-northern-ireland' %}
+      <p class="govuk-body">This service is for residents of England, Scotland and Wales only.</p>
+      <p class="govuk-body">If you live in Northern Ireland, you must apply through the Driver and Vehicle Agency (DVA).</p>
+      {{ govukButton({
+        text: "Apply through DVA",
+        href: "#",
+        classes: "govuk-button--secondary"
+      }) }}
+    {% else %}
+      <p class="govuk-body">You must be ordinarily resident in Great Britain (England, Scotland or Wales) to apply for a DVLA provisional licence.</p>
+      <p class="govuk-body">You must have been living in Great Britain for at least 185 days in the past 12 months to be eligible.</p>
+    {% endif %}
+
+    <p class="govuk-body"><a href="/residency" class="govuk-link">Change your answer</a></p>
+
+  </div>
+</div>
+{% endblock %}

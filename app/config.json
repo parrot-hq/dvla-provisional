@@ -1,5 +1,5 @@
 {
-  "serviceName": "Service name goes here",
+  "serviceName": "Apply for your first provisional driving licence",
   "useServiceNavigation": true,
   "plugins": {
     "govuk-frontend": {

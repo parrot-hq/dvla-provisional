@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}You will need to post your documents - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/identity"
+    }) }}
+
+    <span class="govuk-caption-l">Prove your identity</span>
+    <h1 class="govuk-heading-l">You will need to post your identity documents</h1>
+
+    {{ govukWarningText({
+      text: "Because you are not using a UK passport, you must post original identity documents to DVLA after completing this online application. Do not send photocopies.",
+      iconFallbackText: "Important"
+    }) }}
+
+    <p class="govuk-body">You must post all of the following:</p>
+
+    {% if data['identity-method'] == 'birth-certificate' %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your original UK birth certificate</li>
+      <li>at least one supporting document: P60, P45, payslip showing your National Insurance number, or your National Insurance card</li>
+      <li>a signed passport-style photo</li>
+    </ul>
+    {% elif data['identity-method'] == 'biometric-permit' %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your original biometric residence permit or card</li>
+      <li>a signed passport-style photo</li>
+    </ul>
+    {% else %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your original identity document</li>
+      <li>a signed passport-style photo</li>
+    </ul>
+    {% endif %}
+
+    <p class="govuk-body">DVLA will return your original documents separately, by Royal Mail. Do not send them in the same envelope as your application.</p>
+
+    <p class="govuk-body">Post to:</p>
+    <p class="govuk-body">
+      <strong>DVLA<br>
+      Swansea<br>
+      SA99 1AD</strong>
+    </p>
+
+    {{ govukDetails({
+      summaryText: "Passport photo requirements",
+      html: "<p class='govuk-body'>Your photo must:</p><ul class='govuk-list govuk-list--bullet'><li>be no more than 1 month old</li><li>be 45mm x 35mm</li><li>show your full face against a plain light background</li><li>have no glasses</li><li>be signed on the back by a countersignatory who knows you</li></ul>"
+    }) }}
+
+    <form action="/identity-post-confirm" method="post">
+      {{ govukButton({
+        text: "I understand - continue with my application"
+      }) }}
+    </form>
+
+  </div>
+</div>
+{% endblock %}

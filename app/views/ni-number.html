@@ -1,0 +1,71 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}National Insurance number - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/personal-name"
+    }) }}
+
+    <span class="govuk-caption-l">Your details</span>
+    <h1 class="govuk-heading-l">What is your National Insurance number?</h1>
+
+    <p class="govuk-body">Your National Insurance number helps DVLA verify your identity against government records. Providing it speeds up your application.</p>
+
+    {{ govukInsetText({
+      text: "If you are under 16 or have not yet received your National Insurance number, you can skip this step."
+    }) }}
+
+    <p class="govuk-body">You can find your National Insurance number on:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your payslip or P60</li>
+      <li>a letter from HMRC</li>
+      <li>your personal tax account on GOV.UK</li>
+    </ul>
+
+    <form action="/ni-answer" method="post">
+
+      {{ govukInput({
+        label: {
+          text: "National Insurance number",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "It's on your National Insurance card, benefit letter, payslip or P60. For example, QQ 12 34 56 C"
+        },
+        id: "ni-number",
+        name: "ni-number",
+        classes: "govuk-input--width-10",
+        spellcheck: false,
+        value: data['ni-number']
+      }) }}
+
+      {{ govukRadios({
+        name: "ni-skip",
+        fieldset: {
+          legend: {
+            text: "Or",
+            classes: "govuk-fieldset__legend--s"
+          }
+        },
+        items: [
+          {
+            value: "skip",
+            text: "I do not have a National Insurance number yet"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

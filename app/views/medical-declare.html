@@ -1,0 +1,81 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Which conditions do you want to declare? - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/medical-conditions"
+    }) }}
+
+    <span class="govuk-caption-l">Medical declaration</span>
+    <h1 class="govuk-heading-l">Which conditions do you want to declare?</h1>
+
+    <p class="govuk-body">Select all that apply. You can add more information after you submit your application if needed.</p>
+
+    <form action="/medical-declare-answer" method="post">
+
+      {{ govukCheckboxes({
+        name: "medical-declare",
+        fieldset: {
+          legend: {
+            text: "Conditions to declare",
+            isPageHeading: false,
+            classes: "govuk-visually-hidden"
+          }
+        },
+        items: [
+          {
+            value: "epilepsy",
+            text: "Epilepsy or blackouts",
+            hint: { text: "Including any unexplained loss of consciousness" }
+          },
+          {
+            value: "heart",
+            text: "Heart condition",
+            hint: { text: "Including heart attack, arrhythmia, or pacemaker" }
+          },
+          {
+            value: "diabetes",
+            text: "Diabetes",
+            hint: { text: "Especially if treated with insulin or certain tablets" }
+          },
+          {
+            value: "vision",
+            text: "Visual impairment",
+            hint: { text: "Including conditions that affect your field of vision" }
+          },
+          {
+            value: "sleep",
+            text: "Sleep condition",
+            hint: { text: "Including sleep apnoea or narcolepsy" }
+          },
+          {
+            value: "mental-health",
+            text: "Mental health condition",
+            hint: { text: "Including anxiety, depression, psychosis or PTSD" }
+          },
+          {
+            value: "neurological",
+            text: "Neurological condition",
+            hint: { text: "Including Parkinson's, MS, or brain injury" }
+          },
+          {
+            value: "other",
+            text: "Another condition not listed here"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

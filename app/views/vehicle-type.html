@@ -1,0 +1,66 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Which type of vehicle do you want to drive? - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/medical-conditions"
+    }) }}
+
+    <span class="govuk-caption-l">Your application</span>
+    <h1 class="govuk-heading-l">Which type of vehicle do you want to drive?</h1>
+
+    <p class="govuk-body">Select all the vehicle types you want your provisional licence to cover. Different vehicles have different minimum age requirements.</p>
+
+    <form action="/vehicle-type-answer" method="post">
+
+      {{ govukCheckboxes({
+        name: "vehicle-type",
+        fieldset: {
+          legend: {
+            text: "Vehicle types",
+            isPageHeading: false,
+            classes: "govuk-visually-hidden"
+          }
+        },
+        items: [
+          {
+            value: "car",
+            text: "Car",
+            hint: { text: "Category B - you must be 17 or older to drive. Age 16 if you receive the enhanced rate mobility component of PIP." },
+            checked: data['vehicle-type'] and 'car' in data['vehicle-type']
+          },
+          {
+            value: "moped",
+            text: "Moped",
+            hint: { text: "Category AM - you must be 16 or older. Maximum speed 28mph. Requires a valid CBT certificate to ride." },
+            checked: data['vehicle-type'] and 'moped' in data['vehicle-type']
+          },
+          {
+            value: "motorbike",
+            text: "Motorbike",
+            hint: { text: "Category A - you must be 17 or older. Requires a valid CBT certificate." },
+            checked: data['vehicle-type'] and 'motorbike' in data['vehicle-type']
+          },
+          {
+            value: "tractor",
+            text: "Agricultural tractor",
+            hint: { text: "Category F - you must be 16 or older." },
+            checked: data['vehicle-type'] and 'tractor' in data['vehicle-type']
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

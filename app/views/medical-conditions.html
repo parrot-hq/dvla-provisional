@@ -1,0 +1,67 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Medical conditions - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/eyesight"
+    }) }}
+
+    <span class="govuk-caption-l">Eligibility</span>
+    <h1 class="govuk-heading-l">Do you have any medical conditions that affect your ability to drive?</h1>
+
+    <p class="govuk-body">You must declare any medical condition that could affect your driving. This is a legal requirement. Failing to declare a relevant condition is a criminal offence and can result in a fine of up to £1,000.</p>
+
+    <p class="govuk-body">Conditions you may need to declare include:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>epilepsy or seizures</li>
+      <li>certain heart conditions</li>
+      <li>diabetes treated with insulin or certain medication</li>
+      <li>significant visual impairment</li>
+      <li>sleep apnoea</li>
+      <li>mental health conditions</li>
+      <li>neurological conditions such as Parkinson's disease or multiple sclerosis</li>
+    </ul>
+
+    {{ govukDetails({
+      summaryText: "What happens if I declare a medical condition?",
+      text: "Declaring a condition does not automatically mean you will be refused a licence. The DVLA will assess your case individually. They may contact your GP or specialist for a report before making a decision. Some conditions require periodic review and may result in a licence valid for a shorter period."
+    }) }}
+
+    <form action="/medical-answer" method="post">
+
+      {{ govukRadios({
+        name: "medical-conditions",
+        fieldset: {
+          legend: {
+            text: "Do you have any medical conditions that may affect your driving?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "yes",
+            text: "Yes - I want to declare a condition"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

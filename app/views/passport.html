@@ -1,0 +1,79 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}Enter your passport number - Apply for your first provisional driving licence{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/identity"
+    }) }}
+
+    <span class="govuk-caption-l">Prove your identity</span>
+    <h1 class="govuk-heading-l">Enter your UK passport details</h1>
+
+    <p class="govuk-body">DVLA will use your passport to verify your identity and retrieve your photo for your driving licence. You do not need to provide a separate photo.</p>
+
+    {{ govukInsetText({
+      text: "Your passport must not be expired. If it has been expired for more than 12 months, choose a different identity document."
+    }) }}
+
+    <form action="/passport-answer" method="post">
+
+      {{ govukInput({
+        label: {
+          text: "Passport number",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "This is the 9-character number at the top right of the photo page. For example, 012345678"
+        },
+        id: "passport-number",
+        name: "passport-number",
+        classes: "govuk-input--width-10",
+        spellcheck: false,
+        value: data['passport-number']
+      }) }}
+
+      {{ govukDateInput({
+        id: "passport-expiry",
+        namePrefix: "passport-expiry",
+        fieldset: {
+          legend: {
+            text: "Passport expiry date",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        hint: {
+          text: "For example, 27 3 2030"
+        },
+        items: [
+          {
+            name: "day",
+            classes: "govuk-input--width-2",
+            value: data['passport-expiry-day']
+          },
+          {
+            name: "month",
+            classes: "govuk-input--width-2",
+            value: data['passport-expiry-month']
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-4",
+            value: data['passport-expiry-year']
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}
