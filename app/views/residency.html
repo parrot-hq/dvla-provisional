@@ -1,18 +1,20 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}Do you live in England, Scotland or Wales? - Apply for your first provisional driving licence{% endblock %}
+{% block pageTitle %}{% if data['errors']['residency'] %}Error: {% endif %}Do you live in England, Scotland or Wales? - Apply for your first provisional driving licence{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/date-of-birth"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/date-of-birth" }) }}
+
+    {% if data['errors']['residency'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [{ text: data['errors']['residency'], href: "#residency" }]
+      }) }}
+    {% endif %}
 
     <span class="govuk-caption-l">Eligibility</span>
-    <h1 class="govuk-heading-l">Do you live in England, Scotland or Wales?</h1>
 
     {{ govukInsetText({
       text: "This service is for residents of Great Britain only. If you live in Northern Ireland, you must apply through the Driver and Vehicle Agency (DVA) at nidirect.gov.uk."
@@ -22,32 +24,23 @@
 
       {{ govukRadios({
         name: "residency",
+        idPrefix: "residency",
         fieldset: {
           legend: {
             text: "Do you currently live in England, Scotland or Wales?",
-            isPageHeading: false,
-            classes: "govuk-fieldset__legend--m"
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
           }
         },
+        errorMessage: data['errors']['residency'] and { text: data['errors']['residency'] },
         items: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no-northern-ireland",
-            text: "No, I live in Northern Ireland"
-          },
-          {
-            value: "no-other",
-            text: "No, I live outside the UK"
-          }
+          { value: "yes", text: "Yes" },
+          { value: "no-northern-ireland", text: "No, I live in Northern Ireland" },
+          { value: "no-other", text: "No, I live outside the UK" }
         ]
       }) }}
 
-      {{ govukButton({
-        text: "Continue"
-      }) }}
+      {{ govukButton({ text: "Continue" }) }}
 
     </form>
 

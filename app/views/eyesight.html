@@ -1,18 +1,20 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}Eyesight requirement - Apply for your first provisional driving licence{% endblock %}
+{% block pageTitle %}{% if data['errors']['eyesight'] %}Error: {% endif %}Eyesight requirement - Apply for your first provisional driving licence{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/residency"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/residency" }) }}
+
+    {% if data['errors']['eyesight'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [{ text: data['errors']['eyesight'], href: "#eyesight" }]
+      }) }}
+    {% endif %}
 
     <span class="govuk-caption-l">Eligibility</span>
-    <h1 class="govuk-heading-l">Can you meet the eyesight requirement?</h1>
 
     <p class="govuk-body">To hold a driving licence you must be able to read a vehicle number plate from 20 metres away.</p>
     <p class="govuk-body">You can wear glasses or contact lenses when driving. If you do, you must wear them whenever you drive.</p>
@@ -26,32 +28,23 @@
 
       {{ govukRadios({
         name: "eyesight",
+        idPrefix: "eyesight",
         fieldset: {
           legend: {
             text: "Can you read a number plate from 20 metres, with glasses or contact lenses if needed?",
-            isPageHeading: false,
-            classes: "govuk-fieldset__legend--m"
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
           }
         },
+        errorMessage: data['errors']['eyesight'] and { text: data['errors']['eyesight'] },
         items: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "unsure",
-            text: "I am not sure"
-          }
+          { value: "yes", text: "Yes" },
+          { value: "no", text: "No" },
+          { value: "unsure", text: "I am not sure" }
         ]
       }) }}
 
-      {{ govukButton({
-        text: "Continue"
-      }) }}
+      {{ govukButton({ text: "Continue" }) }}
 
     </form>
 

@@ -1,39 +1,40 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}Your current address - Apply for your first provisional driving licence{% endblock %}
+{% block pageTitle %}{% if data['errors']['address-line1'] or data['errors']['address-town'] or data['errors']['address-postcode'] %}Error: {% endif %}Your current address - Apply for your first provisional driving licence{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/ni-number"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/ni-number" }) }}
+
+    {% if data['errors']['address-line1'] or data['errors']['address-town'] or data['errors']['address-postcode'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          { text: data['errors']['address-line1'], href: "#address-line1" } if data['errors']['address-line1'],
+          { text: data['errors']['address-town'], href: "#address-town" } if data['errors']['address-town'],
+          { text: data['errors']['address-postcode'], href: "#address-postcode" } if data['errors']['address-postcode']
+        ] | selectattr("text")
+      }) }}
+    {% endif %}
 
     <span class="govuk-caption-l">Your address history</span>
     <h1 class="govuk-heading-l">What is your current address?</h1>
-
-    <p class="govuk-body">Your driving licence will be sent to this address. DVLA also needs your address history for the past 3 years.</p>
+    <p class="govuk-body">Your driving licence will be sent to this address.</p>
 
     <form action="/address-answer" method="post">
 
       {{ govukInput({
-        label: {
-          text: "Address line 1",
-          classes: "govuk-label--s"
-        },
+        label: { text: "Address line 1", classes: "govuk-label--s" },
         id: "address-line1",
         name: "address-line1",
         autocomplete: "address-line1",
-        value: data['address-line1']
+        value: data['address-line1'],
+        errorMessage: data['errors']['address-line1'] and { text: data['errors']['address-line1'] }
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "Address line 2 (optional)",
-          classes: "govuk-label--s"
-        },
+        label: { text: "Address line 2 (optional)", classes: "govuk-label--s" },
         id: "address-line2",
         name: "address-line2",
         autocomplete: "address-line2",
@@ -41,22 +42,17 @@
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "Town or city",
-          classes: "govuk-label--s"
-        },
+        label: { text: "Town or city", classes: "govuk-label--s" },
         id: "address-town",
         name: "address-town",
         classes: "govuk-!-width-two-thirds",
         autocomplete: "address-level2",
-        value: data['address-town']
+        value: data['address-town'],
+        errorMessage: data['errors']['address-town'] and { text: data['errors']['address-town'] }
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "County (optional)",
-          classes: "govuk-label--s"
-        },
+        label: { text: "County (optional)", classes: "govuk-label--s" },
         id: "address-county",
         name: "address-county",
         classes: "govuk-!-width-two-thirds",
@@ -64,48 +60,29 @@
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "Postcode",
-          classes: "govuk-label--s"
-        },
+        label: { text: "Postcode", classes: "govuk-label--s" },
         id: "address-postcode",
         name: "address-postcode",
         classes: "govuk-input--width-10",
         autocomplete: "postal-code",
-        value: data['address-postcode']
+        value: data['address-postcode'],
+        errorMessage: data['errors']['address-postcode'] and { text: data['errors']['address-postcode'] }
       }) }}
 
       {{ govukDateInput({
         id: "address-from",
         namePrefix: "address-from",
         fieldset: {
-          legend: {
-            text: "Date you moved to this address",
-            classes: "govuk-fieldset__legend--s"
-          }
+          legend: { text: "Date you moved to this address", classes: "govuk-fieldset__legend--s" }
         },
-        hint: {
-          text: "For example, 3 2022"
-        },
+        hint: { text: "For example, 3 2022" },
         items: [
-          {
-            name: "month",
-            label: "Month",
-            classes: "govuk-input--width-2",
-            value: data['address-from-month']
-          },
-          {
-            name: "year",
-            label: "Year",
-            classes: "govuk-input--width-4",
-            value: data['address-from-year']
-          }
+          { name: "month", label: "Month", classes: "govuk-input--width-2", value: data['address-from-month'] },
+          { name: "year", label: "Year", classes: "govuk-input--width-4", value: data['address-from-year'] }
         ]
       }) }}
 
-      {{ govukButton({
-        text: "Continue"
-      }) }}
+      {{ govukButton({ text: "Continue" }) }}
 
     </form>
 

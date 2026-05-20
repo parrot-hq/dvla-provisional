@@ -1,58 +1,54 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}Your name - Apply for your first provisional driving licence{% endblock %}
+{% block pageTitle %}{% if data['errors']['first-name'] or data['errors']['last-name'] %}Error: {% endif %}Your name - Apply for your first provisional driving licence{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/vehicle-type"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/vehicle-type" }) }}
+
+    {% if data['errors']['first-name'] or data['errors']['last-name'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          { text: data['errors']['first-name'], href: "#first-name" } if data['errors']['first-name'],
+          { text: data['errors']['last-name'], href: "#last-name" } if data['errors']['last-name']
+        ] | selectattr("text")
+      }) }}
+    {% endif %}
 
     <span class="govuk-caption-l">Your details</span>
     <h1 class="govuk-heading-l">What is your name?</h1>
-
-    <p class="govuk-body">Enter your full legal name exactly as it appears on your identity document. Do not use initials or nicknames.</p>
+    <p class="govuk-body">Enter your full legal name exactly as it appears on your identity document.</p>
 
     <form action="/name-answer" method="post">
 
       {{ govukInput({
-        label: {
-          text: "First name",
-          classes: "govuk-label--s"
-        },
+        label: { text: "First name", classes: "govuk-label--s" },
         id: "first-name",
         name: "first-name",
         autocomplete: "given-name",
-        value: data['first-name']
+        value: data['first-name'],
+        errorMessage: data['errors']['first-name'] and { text: data['errors']['first-name'] }
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "Middle names (optional)",
-          classes: "govuk-label--s"
-        },
+        label: { text: "Middle names (optional)", classes: "govuk-label--s" },
         id: "middle-names",
         name: "middle-names",
         value: data['middle-names']
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "Last name",
-          classes: "govuk-label--s"
-        },
+        label: { text: "Last name", classes: "govuk-label--s" },
         id: "last-name",
         name: "last-name",
         autocomplete: "family-name",
-        value: data['last-name']
+        value: data['last-name'],
+        errorMessage: data['errors']['last-name'] and { text: data['errors']['last-name'] }
       }) }}
 
-      {{ govukButton({
-        text: "Continue"
-      }) }}
+      {{ govukButton({ text: "Continue" }) }}
 
     </form>
 

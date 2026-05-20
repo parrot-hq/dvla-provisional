@@ -1,20 +1,26 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}Enter your passport number - Apply for your first provisional driving licence{% endblock %}
+{% block pageTitle %}{% if data['errors']['passport-number'] or data['errors']['passport-expiry'] %}Error: {% endif %}Enter your passport details - Apply for your first provisional driving licence{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/identity"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/identity" }) }}
+
+    {% if data['errors']['passport-number'] or data['errors']['passport-expiry'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          { text: data['errors']['passport-number'], href: "#passport-number" } if data['errors']['passport-number'],
+          { text: data['errors']['passport-expiry'], href: "#passport-expiry-day" } if data['errors']['passport-expiry']
+        ] | selectattr("text")
+      }) }}
+    {% endif %}
 
     <span class="govuk-caption-l">Prove your identity</span>
     <h1 class="govuk-heading-l">Enter your UK passport details</h1>
 
-    <p class="govuk-body">DVLA will use your passport to verify your identity and retrieve your photo for your driving licence. You do not need to provide a separate photo.</p>
+    <p class="govuk-body">DVLA will use your passport to verify your identity and retrieve your photo.</p>
 
     {{ govukInsetText({
       text: "Your passport must not be expired. If it has been expired for more than 12 months, choose a different identity document."
@@ -23,54 +29,32 @@
     <form action="/passport-answer" method="post">
 
       {{ govukInput({
-        label: {
-          text: "Passport number",
-          classes: "govuk-label--m"
-        },
-        hint: {
-          text: "This is the 9-character number at the top right of the photo page. For example, 012345678"
-        },
+        label: { text: "Passport number", classes: "govuk-label--m" },
+        hint: { text: "9 characters at the top right of your photo page. For example, 012345678" },
         id: "passport-number",
         name: "passport-number",
         classes: "govuk-input--width-10",
         spellcheck: false,
-        value: data['passport-number']
+        value: data['passport-number'],
+        errorMessage: data['errors']['passport-number'] and { text: data['errors']['passport-number'] }
       }) }}
 
       {{ govukDateInput({
         id: "passport-expiry",
         namePrefix: "passport-expiry",
         fieldset: {
-          legend: {
-            text: "Passport expiry date",
-            classes: "govuk-fieldset__legend--m"
-          }
+          legend: { text: "Passport expiry date", classes: "govuk-fieldset__legend--m" }
         },
-        hint: {
-          text: "For example, 27 3 2030"
-        },
+        hint: { text: "For example, 27 3 2030" },
+        errorMessage: data['errors']['passport-expiry'] and { text: data['errors']['passport-expiry'] },
         items: [
-          {
-            name: "day",
-            classes: "govuk-input--width-2",
-            value: data['passport-expiry-day']
-          },
-          {
-            name: "month",
-            classes: "govuk-input--width-2",
-            value: data['passport-expiry-month']
-          },
-          {
-            name: "year",
-            classes: "govuk-input--width-4",
-            value: data['passport-expiry-year']
-          }
+          { name: "day", classes: "govuk-input--width-2", value: data['passport-expiry-day'] },
+          { name: "month", classes: "govuk-input--width-2", value: data['passport-expiry-month'] },
+          { name: "year", classes: "govuk-input--width-4", value: data['passport-expiry-year'] }
         ]
       }) }}
 
-      {{ govukButton({
-        text: "Continue"
-      }) }}
+      {{ govukButton({ text: "Continue" }) }}
 
     </form>
 

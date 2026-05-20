@@ -1,20 +1,20 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}What is your date of birth? - Apply for your first provisional driving licence{% endblock %}
+{% block pageTitle %}{% if data['errors']['dob'] %}Error: {% endif %}What is your date of birth? - Apply for your first provisional driving licence{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/sign-in"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/sign-in" }) }}
+
+    {% if data['errors']['dob'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [{ text: data['errors']['dob'], href: "#dob-day" }]
+      }) }}
+    {% endif %}
 
     <span class="govuk-caption-l">Eligibility</span>
-    <h1 class="govuk-heading-l">What is your date of birth?</h1>
-
-    <p class="govuk-body">You must be at least 15 years and 9 months old to apply. You will not be able to drive a car until you are 17.</p>
 
     <form action="/dob-answer" method="post">
 
@@ -23,36 +23,21 @@
         namePrefix: "dob",
         fieldset: {
           legend: {
-            text: "Date of birth",
-            isPageHeading: false,
-            classes: "govuk-fieldset__legend--s"
+            text: "What is your date of birth?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
           }
         },
-        hint: {
-          text: "For example, 31 3 1990"
-        },
+        hint: { text: "For example, 31 3 1990" },
+        errorMessage: data['errors']['dob'] and { text: data['errors']['dob'] },
         items: [
-          {
-            name: "day",
-            classes: "govuk-input--width-2",
-            value: data['dob-day']
-          },
-          {
-            name: "month",
-            classes: "govuk-input--width-2",
-            value: data['dob-month']
-          },
-          {
-            name: "year",
-            classes: "govuk-input--width-4",
-            value: data['dob-year']
-          }
+          { name: "day", classes: "govuk-input--width-2" + (" govuk-input--error" if data['errors']['dob']), value: data['dob-day'] },
+          { name: "month", classes: "govuk-input--width-2" + (" govuk-input--error" if data['errors']['dob']), value: data['dob-month'] },
+          { name: "year", classes: "govuk-input--width-4" + (" govuk-input--error" if data['errors']['dob']), value: data['dob-year'] }
         ]
       }) }}
 
-      {{ govukButton({
-        text: "Continue"
-      }) }}
+      {{ govukButton({ text: "Continue" }) }}
 
     </form>
 

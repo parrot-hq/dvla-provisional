@@ -1,52 +1,49 @@
 {% extends "layouts/main.html" %}
-
-{% block pageTitle %}Sign in to GOV.UK - DVLA{% endblock %}
+{% block pageTitle %}{% if data['errors']['email'] or data['errors']['password'] %}Error: {% endif %}Sign in to GOV.UK - DVLA{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukBackLink({
-      text: "Back",
-      href: "/start"
-    }) }}
+    {{ govukBackLink({ text: "Back", href: "/start" }) }}
 
     <h1 class="govuk-heading-xl">Sign in to GOV.UK</h1>
 
-    <p class="govuk-body">Sign in to your GOV.UK account to continue your application. Your account keeps your information safe.</p>
+    {% if data['errors']['email'] or data['errors']['password'] %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          { text: data['errors']['email'], href: "#email" } if data['errors']['email'],
+          { text: data['errors']['password'], href: "#password" } if data['errors']['password']
+        ] | selectattr("text")
+      }) }}
+    {% endif %}
+
+    <p class="govuk-body">Sign in to your GOV.UK account to continue your application.</p>
 
     <form action="/sign-in-answer" method="post">
 
       {{ govukInput({
-        label: {
-          text: "Email address",
-          classes: "govuk-label--m"
-        },
-        hint: {
-          text: "We'll send a verification code to this email address"
-        },
+        label: { text: "Email address", classes: "govuk-label--m" },
         id: "email",
         name: "email",
-        type: "email",
+        type: "text",
         autocomplete: "email",
         spellcheck: false,
-        value: data['email']
+        value: data['email'],
+        errorMessage: data['errors']['email'] and { text: data['errors']['email'] }
       }) }}
 
       {{ govukInput({
-        label: {
-          text: "Password",
-          classes: "govuk-label--m"
-        },
+        label: { text: "Password", classes: "govuk-label--m" },
         id: "password",
         name: "password",
         type: "password",
-        autocomplete: "current-password"
+        autocomplete: "current-password",
+        errorMessage: data['errors']['password'] and { text: data['errors']['password'] }
       }) }}
 
-      {{ govukButton({
-        text: "Sign in"
-      }) }}
+      {{ govukButton({ text: "Sign in" }) }}
 
     </form>
 
@@ -55,7 +52,7 @@
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">Create a GOV.UK account</h2>
-    <p class="govuk-body">If you do not have a GOV.UK account, you can <a href="/sign-in-answer?new-user=true" class="govuk-link">create one now</a>. It takes about 5 minutes.</p>
+    <p class="govuk-body">If you do not have a GOV.UK account, you can <a href="/sign-in-answer?new-user=true" class="govuk-link">create one now</a>.</p>
 
   </div>
 </div>
